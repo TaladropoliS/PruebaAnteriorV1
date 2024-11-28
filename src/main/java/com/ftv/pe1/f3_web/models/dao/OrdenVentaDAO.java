@@ -6,9 +6,9 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -36,10 +36,20 @@ public class OrdenVentaDAO implements IOrdenVentaDAO {
                 .getResultList();
     }
 
+//    Date sqlFechaNacimiento = Date.valueOf(fecha_nacimiento);
+
     @Override
     public List<OrdenVentaDTO> listarOrdenesPorFechas(String fecha1S, String fecha2S) {
         LocalDateTime fecha1 = LocalDate.parse(fecha1S).atStartOfDay();
         LocalDateTime fecha2 = LocalDate.parse(fecha1S).atTime(23, 59, 59);
+
+
+//        LocalDate fecha1 = LocalDate.parse(fecha1S);
+//        LocalDate fecha2 = LocalDate.parse(fecha1S);
+//        Date sqlfecha1 = Date.valueOf(fecha1);
+//        Date sqlfecha2 = Date.valueOf(fecha2);
+
+
         return em.createQuery("SELECT o FROM OrdenVentaDTO o WHERE o.fecha BETWEEN :fecha1 AND :fecha2", OrdenVentaDTO.class)
                 .setParameter("fecha1", fecha1)
                 .setParameter("fecha2", fecha2)
